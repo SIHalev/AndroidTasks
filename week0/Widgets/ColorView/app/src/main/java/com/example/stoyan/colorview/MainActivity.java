@@ -9,9 +9,13 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.EditText;
+import android.widget.Toast;
+
+import java.util.regex.Pattern;
 
 
 public class MainActivity extends Activity {
+    private final String HEX_PATTERN = "#[0-9A-Fa-f]{6}";
     private EditText editText;
     private View view;
 
@@ -38,7 +42,13 @@ public class MainActivity extends Activity {
                     color += "0";
                 }
 
-                view.setBackgroundColor(Color.parseColor(color));
+                boolean isHex = Pattern.compile(HEX_PATTERN).matcher(color).matches();
+
+                if (isHex) {
+                    view.setBackgroundColor(Color.parseColor(color));
+                } else {
+                    Toast.makeText(getApplicationContext(), "Invalid Hex color", Toast.LENGTH_SHORT).show();
+                }
             }
 
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {}
